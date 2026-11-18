@@ -2,7 +2,7 @@ import {desk} from "@shared/desk";
 import {wrap,label,type Frame} from "@shared/surface";
 const pip=[[4],[0,8],[0,4,8],[0,2,6,8],[0,2,4,6,8],[0,2,3,5,6,8]];
 type S={n:number;threshold:number;rolls:number[];attempts:number};
-desk<S>({name:"Dice Ledger",accent:"#ED8B86",motion:{"motif":"cells","color":"#ED8B86","shine":"#FFF0DB"},initial:()=>({n:5,threshold:5,rolls:[],attempts:0}),render:s=>{
+desk<S>({name:"Dice Ledger",accent:"#ED8B86",motion:{enabled:false},initial:()=>({n:5,threshold:5,rolls:[],attempts:0}),render:s=>{
  const success=s.rolls.filter(x=>x>=s.threshold).length;
  const rows=Array.from({length:7},()=>Array<string>(72).fill("."));
  for(let i=0;i<s.n;i++){
