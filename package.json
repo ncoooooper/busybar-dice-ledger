@@ -1,7 +1,7 @@
 {
   "name": "busybar-dice-ledger",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Roll a tabletop dice pool, retain successes, and reroll only the dice that missed.",
   "author": "ncoooooper",
   "type": "module",

@@ -11,7 +11,7 @@
   "frames": 54,
   "distinct_frames": 15,
   "exit": "App io.ncoooooper.diceledger exited: finished; heap peak 94.2 of 128 KiB",
-  "sha256": "965a9e1d36256e5f38d970483e3736aff8763291e95d8d75693c950bccd9613e",
+  "sha256": "5257a66d247b3684617bdcd2cdb9c4eab06b519c6bf8a986bf76e91de35f3d8e",
   "display_test": {
     "firmware": "1.3.1",
     "input": "On-device controls",
