@@ -4,6 +4,20 @@ Roll a tabletop dice pool, retain successes, and reroll only the dice that misse
 
 Let everyone at the table see which dice are already safe. Successes keep their faces when the next player clicks to reroll the misses, so there is no need to sort a handful of dice between throws.
 
+## Screen transitions
+
+Roll the pool and follow the individual dice as the misses roll again.
+
+![Dice Ledger front display. Roll the pool and follow the individual dice as the misses roll again.](media/guide/screen-transitions.gif)
+
+<details>
+
+<summary>Watch the rear display</summary>
+
+![Dice Ledger rear display during the recorded controls](media/guide/screen-transitions-rear.gif)
+
+</details>
+
 ## Build and roll the pool
 
 1. Before rolling, turn the wheel to select one to eight dice. Press **Start** to choose the minimum successful face, from two through six.
@@ -34,6 +48,6 @@ Open BUSY Bar Emulator. From this repository, run:
 
 Press **Back** to exit.
 
-The GIFs are excerpts from the emulator recording. Each front-display pixel is shown at 9× its original width and height. The end frames pause for reading.
+The GIFs are excerpts from the emulator recording. Each LED occupies a 16 × 16 cell with a black border. The end frames pause for reading.
 
 [Full recording](media/controls.mp4) · [Rear display](screenshots/back-1.png) · [Firmware test](EMULATOR-QA.md) · [MIT license](LICENSE)
