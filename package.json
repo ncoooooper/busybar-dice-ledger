@@ -2,7 +2,7 @@
   "name": "busybar-dice-ledger",
   "private": true,
   "version": "0.1.0",
-  "description": "Dice Ledger",
+  "description": "Roll a tabletop dice pool, retain successes, and reroll only the dice that missed.",
   "author": "ncoooooper",
   "type": "module",
   "scripts": {

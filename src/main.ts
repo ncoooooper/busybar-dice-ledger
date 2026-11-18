@@ -1,66 +1,13 @@
-import { device } from "@shared/device";
-import { column, render, type Node } from "@busy-app/busy-lib";
-import manifest from "./appmeta/manifest.json";
-
-/** The name the app draws under; the device clears elements by this id. */
-const APP = manifest.id;
-
-/** How often the screen is redrawn. */
-const TICK_MS = 1000;
-
-const WHITE = "#FFFFFFFF";
-const SUBTLE_WHITE = "#FFFFFF80";
-
-/**
- * The frame drawn on every tick. The screen is 72×16, so two short lines are about all that fits.
- */
-function frame(ticks: number): Node {
-  return column({ justify: "center", align: "center" }, [
-    { type: "text", id: "title", text: "Hello", font: "bold", color: WHITE },
-    {
-      type: "text",
-      id: "ticks",
-      text: String(ticks),
-      font: "small",
-      color: SUBTLE_WHITE,
-    },
-  ]);
-}
-
-/** Sends one frame to the device. */
-async function draw(ticks: number): Promise<void> {
-  const elements = render(frame(ticks));
-  await device.DisplayDraw({ application_name: APP, priority: 50, elements });
-}
-
-/**
- * Entry point, called at the end of the file: the device runs this script from top to bottom and starts nothing by itself.
- */
-function main(): void {
-  let ticks = 0;
-  let stopped = false;
-
-  const report = (err: unknown) =>
-    console.error(`${APP}: ${err instanceof Error ? err.message : String(err)}`);
-
-  void draw(ticks).catch(report);
-
-  // Tick errors are reported, not thrown: one failed request must not stop the loop.
-  const timer = setInterval(() => {
-    ticks += 1;
-    void draw(ticks).catch(report);
-  }, TICK_MS);
-
-  // Back leaves the app. Once the timer is cleared and the handler detached, nothing keeps it alive and the device takes the screen back.
-  const unbind = listen("input", (event) => {
-    if (stopped || event.key !== "back" || event.action !== "short") return;
-
-    stopped = true;
-    clearInterval(timer);
-
-    // Not detached from inside the handler itself: with nothing else left the unbind stops the app on the spot, while this handler is still running.
-    setTimeout(unbind, 0);
-  });
-}
-
-main();
+import {desk} from "@shared/desk";
+import {wrap,rect,label,type Frame} from "@shared/surface";
+const pip=[[4],[0,8],[0,4,8],[0,2,6,8],[0,2,4,6,8],[0,2,3,5,6,8]];
+type S={n:number;threshold:number;rolls:number[];attempts:number};
+desk<S>({name:"Dice Ledger",accent:"#ED8B86",motion:{"motif":"cells","color":"#ED8B86","shine":"#FFF0DB"},initial:()=>({n:5,threshold:5,rolls:[],attempts:0}),render:s=>{
+ const success=s.rolls.filter(x=>x>=s.threshold).length,art:Frame=[];
+ for(let i=0;i<s.n;i++){const x=1+i*9,v=s.rolls[i];art.push(rect("die"+i,x,4,8,9,v&&v>=s.threshold?"#71C7A7FF":"#827E87FF"));
+ if(v)for(const [j,n] of pip[v-1].entries())art.push(rect("pip"+i+"-"+j,x+1+(n%3)*2,6+Math.floor(n/3)*2,1,1,"#171D24FF"));}
+ art.push(label("n",String(s.n),1,0,"#F6D6ADFF","front","tiny"));
+ return {art,title:"",value:"",lines:["Success "+success+" / "+s.n,"Threshold "+s.threshold+"+","Rolls "+s.attempts,"Click: roll / reroll misses","Wheel: pool / Start: threshold","Hold Start: clear dice"]};},
+ action:(s,k)=>{if(k==="hold-start"){s.rolls=[];s.attempts=0;}if(k==="start"&&!s.rolls.length)s.threshold=2+wrap(s.threshold-2+1,5);
+ if((k==="up"||k==="down")&&!s.rolls.length)s.n=1+wrap(s.n-1+(k==="up"?1:-1),8);
+ if(k==="ok"){s.rolls=Array.from({length:s.n},(_,i)=>s.rolls[i]>=s.threshold?s.rolls[i]:1+Math.floor(Math.random()*6));s.attempts++;}}});

@@ -4,6 +4,6 @@
   "name": "Dice Ledger",
   "version": "0.1.0",
   "api_version": "27.12.0",
-  "description": "Dice Ledger",
+  "description": "Roll a tabletop dice pool, retain successes, and reroll only the dice that missed.",
   "author": "ncoooooper"
 }
